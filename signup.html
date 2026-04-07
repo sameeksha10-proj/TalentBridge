@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Talent Bridge</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="auth-container">
+    <div class="auth-box">
+        <h1>Join Talent Bridge</h1>
+        <p>Choose your role</p>
+
+        <div class="role-selection">
+            <button class="role-btn" onclick="selectRole('performer')">I'm a Performer</button>
+            <button class="role-btn" onclick="selectRole('company')">I'm a Company / Organizer</button>
+        </div>
+
+        <form id="signupForm">
+            <input type="text" placeholder="Full Name / Company Name" required>
+            <input type="email" placeholder="Email Address" required>
+            <input type="tel" placeholder="Phone Number" required>
+            <input type="password" placeholder="Create Password" required>
+            <button type="submit" class="btn primary full">Create Account</button>
+        </form>
+
+        <p>Already have an account? <a href="login.html">Login</a></p>
+    </div>
+</div>
+
+<script>
+function selectRole(role) {
+    alert(`You selected: ${role === 'performer' ? 'Performer' : 'Company'}`);
+    // You can add more logic here later
+}
+</script>
+
+</body>
+</html>

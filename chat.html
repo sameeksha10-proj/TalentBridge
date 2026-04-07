@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat - Talent Bridge</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+            --primary: #6366f1;
+            --accent: #a855f7;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --text: #1e2937;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* ==================== COMPACT NAVBAR ==================== */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 60px;
+            background: var(--dark);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            height: 68px;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        .logo:hover {
+            transform: scale(1.08);
+            transition: 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover:after {
+            width: 100%;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        .btn-signup {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: white;
+            padding: 10px 26px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+            transition: all 0.4s ease;
+            font-size: 1rem;
+        }
+
+        .btn-signup:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(168, 85, 247, 0.4);
+        }
+
+        /* ==================== CHAT PAGE STYLING ==================== */
+        .chat-container {
+            padding: 80px 20px 40px;
+            max-width: 900px;
+            margin: 0 auto;
+            background: linear-gradient(180deg, #f8fafc, #f1f5f9);
+            min-height: calc(100vh - 68px);
+        }
+
+        .chat-box {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 25px 60px rgba(99, 102, 241, 0.18);
+            overflow: hidden;
+            height: 620px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .chat-header img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255,255,255,0.3);
+        }
+
+        .chat-header h3 {
+            font-size: 1.3rem;
+        }
+
+        .chat-header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+            background: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .message {
+            max-width: 75%;
+            padding: 14px 22px;
+            border-radius: 22px;
+            line-height: 1.5;
+            font-size: 1.05rem;
+        }
+
+        .message.sent {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 6px;
+        }
+
+        .message.received {
+            background: #e2e8f0;
+            align-self: flex-start;
+            border-bottom-left-radius: 6px;
+        }
+
+        .chat-input {
+            padding: 20px 30px;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 16px 24px;
+            border: 2px solid #e2e8f0;
+            border-radius: 50px;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+        }
+
+        .chat-input button {
+            padding: 16px 32px;
+            border-radius: 50px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: white;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .chat-input button:hover {
+            transform: scale(1.08);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 12px 30px;
+                height: auto;
+            }
+            .chat-container {
+                padding: 60px 15px;
+            }
+            .chat-box {
+                height: 520px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">Talent Bridge</div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="explore-talent.html">Explore Talent</a>
+        <a href="post-job.html">Post Job</a>
+        <a href="login.html">Login</a>
+        <a href="signup.html" class="btn-signup">Sign Up Free</a>
+    </nav>
+</header>
+
+<div class="chat-container">
+    <div class="chat-box">
+        
+        <!-- Chat Header -->
+        <div class="chat-header">
+            <img src="https://via.placeholder.com/300x300/6366f1/ffffff?text=Priya+Sharma" alt="Priya Sharma">
+            <div>
+                <h3>Priya Sharma</h3>
+                <p>Dancer • Pune • Online now</p>
+            </div>
+        </div>
+
+        <!-- Messages -->
+        <div class="chat-messages">
+            <div class="message received">Hi! I saw your job post for a dancer on 15th April. I'm available and really excited to perform!</div>
+            
+            <div class="message sent">Great! Can you share your latest performance reel and availability?</div>
+            
+            <div class="message received">Sure! Here's my latest reel 👇<br>
+                <strong>Duration:</strong> 15 minutes<br>
+                <strong>Rate:</strong> ₹32,000<br>
+                I'm free on 15th April from 5 PM onwards.
+            </div>
+            
+            <div class="message sent">Perfect! The theme is modern Bollywood fusion. Does that work for you?</div>
+            
+            <div class="message received">Absolutely! I specialize in that. Looking forward to working together 😊</div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="chat-input">
+            <input type="text" id="messageInput" placeholder="Type your message here...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function sendMessage() {
+        const input = document.getElementById('messageInput');
+        if (input.value.trim() === '') return;
+        
+        const messagesDiv = document.querySelector('.chat-messages');
+        
+        // Create new sent message
+        const newMsg = document.createElement('div');
+        newMsg.className = 'message sent';
+        newMsg.textContent = input.value;
+        messagesDiv.appendChild(newMsg);
+        
+        // Scroll to bottom
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        
+        // Clear input
+        input.value = '';
+        
+        // Simulate reply after 1 second
+        setTimeout(() => {
+            const reply = document.createElement('div');
+            reply.className = 'message received';
+            reply.textContent = "Got it! I'll send the contract details shortly.";
+            messagesDiv.appendChild(reply);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }, 1000);
+    }
+</script>
+
+</body>
+</html>
